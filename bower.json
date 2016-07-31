@@ -1,0 +1,22 @@
+{
+  "name": "webcoder",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "mrKorg <mr.korg@ya.ru>"
+  ],
+  "license": "ISC",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.1.0",
+    "jquery-migrate": "^3.0.0",
+    "jquery-ui": "^1.12.0"
+  }
+}

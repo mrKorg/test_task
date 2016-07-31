@@ -1,0 +1,913 @@
+@import "_help.sass"
+@import "_fonts.sass"
+
+// Colors
+$orange: #ff9933
+$grayText: #666666
+
+@include keyframes(showIcon)
+  0%
+    display: none
+    opacity: 0
+  5%
+    display: block
+    opacity: 0
+  100%
+    opacity: 1
+@include keyframes(showTooltip)
+  0%
+    display: none
+    opacity: 0
+    margin-left: 20px
+  5%
+    display: block
+    opacity: 0
+    margin-right: -10px
+  90%
+    margin-right: 0
+  100%
+    opacity: 1
+
+body
+  font-family: 'Source Sans Pro', sans-serif
+  font-weight: 300
+  color: $grayText
+  input, select, button, textarea
+    font-family: 'Source Sans Pro', sans-serif
+
+
+.fullFlexRow
+  display: -webkit-box
+  display: -moz-box
+  display: -ms-flexbox
+  display: -webkit-flex
+  display: flex
+  -webkit-box-direction: normal
+  -moz-box-direction: normal
+  -webkit-box-orient: horizontal
+  -moz-box-orient: horizontal
+  -webkit-flex-direction: row
+  -ms-flex-direction: row
+  flex-direction: row
+  -webkit-flex-wrap: wrap
+  -ms-flex-wrap: wrap
+  flex-wrap: wrap
+  -webkit-box-pack: justify
+  -moz-box-pack: justify
+  -webkit-justify-content: space-between
+  -ms-flex-pack: justify
+  justify-content: space-between
+  -webkit-align-content: flex-start
+  -ms-flex-line-pack: start
+  align-content: flex-start
+  -webkit-box-align: start
+  -moz-box-align: start
+  -webkit-align-items: flex-start
+  -ms-flex-align: start
+  align-items: flex-start
+
+.floatLeft
+  float: left
+.floatRight
+  float: right
+
+// Fix grid
+@media (min-width: 1200px)
+  .container
+    max-width: 960px
+
+
+// Header
+.header
+  height: 107px
+  text-align: center
+  padding-top: 14px
+  @include position(fixed,0,0,null,0)
+  width: 100%
+  width: 100vw
+  z-index: 100
+  background: #FFF
+  @include transition(padding 0.3s ease, height 0.3s ease)
+  &.sticky
+    height: 75px
+    padding-top: 13px
+    .header_logo
+      img
+        height: 50px
+        width: auto
+  &_logo
+    @extend %dline
+    img
+      display: block
+      height: 82px
+      width: auto
+      @include transition(height 0.3s ease, width 0.3s ease)
+.afterHeader
+  height: 107px
+  display: block
+
+
+// Start block
+.block_start
+  padding: 20px 0
+  background: url("../img/block_start_bg.png") no-repeat center $orange
+  &_box
+    @media (min-width: 601px)
+      padding: 0
+    & > div
+      @include box-shadow(0 0 2px rgba(#000,0.5))
+      @include border-radius(3px)
+      & > .row
+        margin: 0
+    &:after
+      content: ""
+      @include position(absolute,null,0,-16px,0)
+      width: 100%
+      height: 16px
+      background: url("../img/block_start_shadow.png") no-repeat center top
+      background-size: contain
+  &_slider
+    padding: 0
+    overflow: hidden
+    @media (min-width: 992px)
+      @include border-radius(3px 0 0 3px)
+    @media (max-width: 991px)
+      @include border-radius(3px 3px 0 0)
+    .slider
+      margin: 0 auto
+      overflow: hidden
+      position: relative
+      .slide_viewer
+        overflow: hidden
+        position: relative
+        @media (min-width: 992px)
+          height: 467px
+        @media (max-width: 991px)
+          height: 500px
+        .slide_group
+          position: relative
+          width: 100%
+          height: 100%
+          .slide
+            display: none
+            position: absolute
+            width: 100%
+            height: 100%
+            background-size: cover
+            background-position: center
+            background-repeat: no-repeat
+            &:first-child
+              display: block
+      .slide_buttons
+        text-align: center
+        height: 40px
+        @include position(absolute,null,0,0,0)
+        z-index: 10
+        a.slide_btn
+          width: 11px
+          height: 11px
+          margin: 0 4px
+          cursor: pointer
+          text-indent: -9999px
+          background: rgba(#000,0.5)
+          border: 1px solid rgba(#000,0.5)
+          vertical-align: top
+          @extend %dline
+          @include transition(background 0.3s ease)
+          @include border-radius(50%)
+          &.active, &:hover
+            @include gradient($orange, darken($orange,10%), vertical)
+      .directional_nav
+        @include position(absolute,0,0,0,0)
+        z-index: 5
+        .previous_btn
+          @include position(absolute,50%,null,null,-100px)
+        .next_btn
+          @include position(absolute,50%,-100px,null,null)
+        .previous_btn, .next_btn
+          cursor: pointer
+          opacity: 0.5
+          @include transition(opacity 0.4s ease-in-out, left 0.3s ease, right 0.3s ease)
+          width: 65px
+          height: 65px
+          margin-top: -32.5px
+          &:hover
+            opacity: 1
+      &:hover
+        .previous_btn
+          left: 25px
+        .next_btn
+          right: 25px
+  &_form
+    padding: 9px 10px 5px 17px
+    background: #f7f7f7
+    @media (min-width: 992px)
+      height: 467px
+      @include border-radius(0 3px 3px 0)
+    @media (max-width: 991px)
+      padding-bottom: 25px
+      @include border-radius(0 0 3px 3px)
+    &_row
+      padding-bottom: 12px
+    &_title
+      font-size: 44px
+      font-weight: 300
+      margin-bottom: 13px
+      color: $orange
+      // Gradient text not crossbrowser
+      //background: linear-gradient(0deg, #fd8201 35%, #FFF 100%)
+      //-webkit-background-clip: text
+      //-webkit-text-fill-color: transparent
+      @media (max-width: 991px)
+        max-width: 450px
+        margin: 0 auto
+      @media (max-width: 479px)
+        font-size: 36px
+        margin-bottom: 10px
+      @media (max-width: 419px)
+        font-size: 24px
+    form
+      @media (max-width: 991px)
+        max-width: 450px
+        margin: 0 auto
+    .col-name
+      float: left
+      width: 102px
+      font-size: 18px
+      padding: 0 5px 0 3px
+      line-height: 36px
+      height: 36px
+      @media (max-width: 1199px)
+        width: 80px
+      @media (max-width: 479px)
+        width: 50px
+        font-size: 14px
+    .col-body
+      margin-left: 102px
+      padding-right: 42px
+      position: relative
+      @media (max-width: 1199px)
+        margin-left: 80px
+      @media (max-width: 479px)
+        display: block !important
+      @media (max-width: 479px)
+        margin-left: 50px
+      .valid_icon
+        display: none
+        width: 21px
+        height: 21px
+        @include position(absolute,7px,13px,null,null)
+        @include transition(background 0.3s ease)
+      .valid_message
+        display: none
+        @include position(absolute,50%,-172px,null,null)
+        width: 184px
+        height: 77px
+        line-height: 77px
+        text-align: center
+        padding: 0 10px 0 20px
+        color: #FFF
+        margin-top: -36px
+        background: url("../img/tooltip.png") no-repeat center
+        @media (max-width: 1199px)
+          display: none !important
+      &.notValid
+        .valid_icon
+          display: block
+          background: url("../img/notValid.png") no-repeat center
+          @include animation('showIcon 1s')
+        .valid_message
+          display: block
+          @include animation('showTooltip 1s')
+      &.valid
+        .valid_icon
+          display: block
+          background: url("../img/valid.png") no-repeat center
+        .valid_message
+          display: none
+    .genderBox
+      @extend %afterClear
+      @include gradient($orange, darken($orange,10%), vertical)
+      @include box-shadow(2px 2px 4px rgba(#000,0.35) inset)
+      width: 96px
+      height: 36px
+      padding: 1px
+      @include border-radius(18px)
+      overflow: hidden
+      & > div
+        float: left
+        width: 47px
+        @include gradient(#f2f9fa, #e5e6e6, vertical)
+        @include box-shadow(1px -1px 2px rgba(#000,0.1) inset)
+        & > div
+          background-position: center bottom
+          background-repeat: no-repeat
+          width: 100%
+          @include transition(background-position 0.3s ease)
+          input
+            width: 100%
+            height: 34px
+            opacity: 0
+            cursor: pointer
+            display: block
+        &.woman
+          @include border-radius(18px 0 0 18px)
+          padding-left: 2px
+          div
+            background-image: url("../img/woman.png")
+        &.man
+          @include border-radius(0 18px 18px 0)
+          padding-right: 2px
+          div
+            background-image: url("../img/man.png")
+        &.checked
+          background: none
+          box-shadow: none
+          & > div
+            background-position: center top
+    .looking
+      background: url("../img/search.png") left center no-repeat
+      line-height: 36px
+      padding: 0 2px 0 20px
+      font-size: 18px
+    input[type="text"]
+      @include gradient(#e5e6e6, #f2f9fa, vertical)
+      @include box-shadow(1px 1px 2px rgba(#000,0.1) inset)
+      @include border-radius(18px)
+      height: 36px
+      padding: 8px 15px
+      width: 100%
+      display: block
+      border: 1px solid #a5a5a5
+      color: $grayText !important
+    .select-hidden
+      display: none
+      visibility: hidden
+      padding-right: 10px
+    .select
+      position: relative
+      @media (min-width: 480px)
+        &.date
+          width: 25%
+        &.month
+          width: 41%
+        &.year
+          width: 29%
+      @media (max-width: 479px)
+        margin-top: 12px
+        &:first-child
+          margin-top: 0
+      .select-styled
+        @include gradient(#e5e6e6, #f2f9fa, vertical)
+        @include box-shadow(1px 1px 2px rgba(#000,0.1) inset)
+        @include border-radius(18px)
+        height: 36px
+        padding: 8px 40px 8px 15px
+        width: 100%
+        display: block
+        border: 1px solid #a5a5a5
+        color: $grayText !important
+        line-height: 16px
+        cursor: pointer
+        overflow: hidden
+        &:before
+          content: ""
+          @include position(absolute,1px,1px,1px,null)
+          width: 35px
+          border-left: 1px solid #a5a5a5
+          @include gradient(#f2f9fa, #e5e6e6, vertical)
+          @include box-shadow(1px 1px 2px rgba(#000,0.1) inset)
+          @include border-radius(0 18px 18px 0)
+          overflow: hidden
+          z-index: 5
+        &:after
+          content: ""
+          @include position(absolute,1px,3px,1px,null)
+          background: url("../img/select_arrow.png") no-repeat center
+          width: 33px
+          z-index: 10
+        &:active
+          &:before
+            @include gradient(#e5e6e6, #f2f9fa, vertical)
+      .select-options
+        display: none
+        list-style: none
+        @include position(absolute,106%,0,null,0)
+        z-index: 10
+        @include gradient(#e5e6e6, #f2f9fa, vertical)
+        @include box-shadow(1px 1px 2px rgba(#000,0.1) inset)
+        @include border-radius(18px)
+        padding: 8px 0
+        width: 100%
+        max-height: 170px
+        border: 1px solid #909090
+        color: $grayText !important
+        overflow-y: scroll
+        z-index: 50
+        &::-webkit-scrollbar
+          width: 0
+        &::-webkit-scrollbar-track
+          background: transparent
+        &::-webkit-scrollbar-thumb
+          background: transparent
+        li
+          cursor: pointer
+          padding: 3px 15px
+          &:hover
+            background: #f2f9fa
+          &[rel="hide"]
+            display: none
+    label
+      display: block
+      font-size: 18px
+      &.label
+        height: 28px
+        line-height: 32px
+    .checkboxCustom, .radioCustom
+      width: 14px
+      height: 14px
+      border-top: 1px solid #d8d8d8
+      border-right: 1px solid #a2a2a2
+      border-bottom: 1px solid #a2a2a2
+      border-left: 1px solid #d8d8d8
+      padding: 1px
+      @include gradient(#e5e6e6, #f2f9fa, vertical)
+      margin-right: 10px
+      @extend %dline
+      position: relative
+      top: 1px
+      & > div
+        @include transition(background 0.3s ease)
+      &.checked
+        & > div
+          @include gradient($orange, darken($orange,10%), vertical)
+      input
+        opacity: 0
+        width: 10px
+        height: 10px
+        display: block
+    .radioCustom
+      @include border-radius(50%)
+      & > div
+        @include border-radius(50%)
+
+    .buttonBox
+      padding-top: 10px
+    .button
+      padding-bottom: 5px
+      height: 70px
+      @include border-radius(35px)
+      width: 100%
+      display: block
+      border: 1px solid #7fa607
+      @include box-shadow(0 0 1px #d4e18e inset)
+      font-size: 48px
+      color: #FFF
+      font-weight: 200
+      @include text-shadow(0 -1px rgba(#000,0.3))
+      background-color: #b5cc3f
+      background: #b5cc3f
+      background: -moz-linear-gradient(top, #abcc29 0%, #7ab901 49.5%, #4dab01 50%, #7bc501 100%)
+      background: -webkit-linear-gradient(top, #abcc29 0%, #7ab901 49.5%, #4DAB01 50%, #7BC501 100%)
+      background: linear-gradient(to bottom, #abcc29 0%, #7ab901 49.5%, #4DAB01 50%, #7BC501 100%)
+      @include transition(background 0.3s ease, text-shadow 0.3s ease, border 0.3s ease)
+      @media (max-width: 420px)
+        font-size: 32px
+      &:hover
+        background: -moz-linear-gradient(top, #abcc29 0%, #7ab901 40%, #4dab01 60%, #7bc501 100%)
+        background: -webkit-linear-gradient(top, #abcc29 0%, #7ab901 40%, #4DAB01 60%, #7BC501 100%)
+        background: linear-gradient(to bottom, #abcc29 0%, #7ab901 40%, #4DAB01 60%, #7BC501 100%)
+        @include text-shadow(-1px -2px rgba(#000,0.2))
+        border: 1px solid darken(#7fa607,5%)
+
+
+// Content
+.block_content
+  padding: 32px 0
+  font-size: 14px
+  color: #4e4e4e
+  &_title
+    font-size: 31px
+    font-weight: 300
+    margin-bottom: 15px
+  .textBock
+    @media (max-width: 991px)
+      margin-bottom: 20px
+    img.roundImage
+      display: block
+      @include border-radius(50%)
+      -webkit-shape-outside: circle()
+      shape-outside: circle()
+      margin-top: 5px
+      margin-right: 15px
+      @media (min-width: 544px)
+        margin-left: -10px
+    p
+      text-align: justify
+  p
+    line-height: 1.57
+    margin-bottom: 20px
+    a
+      color: $orange
+      border-bottom: 1px solid $orange
+      &:hover
+        border-bottom: 1px solid transparent
+  .text_selection
+    color: $orange
+    border-left: 3px solid $orange
+    padding: 0 0 0 10px
+    line-height: 1.4
+    margin-bottom: 20px
+  ul, ol
+    margin-left: 13px
+    margin-bottom: 20px
+    line-height: 1.57
+    a
+      color: $orange
+      border-bottom: 1px solid $orange
+      &:hover
+        border-bottom: 1px solid transparent
+  &_col
+    padding-right: 30px
+  blockquote
+    font-style: italic
+    color: #9a9a9a
+    line-height: 1.4
+    margin: 0 0 20px
+    padding: 0 20px
+    position: relative
+    &:before
+      content: '“'
+      font-size: 72px
+      color: #d1d1d1
+      font-weight: 200
+      @include position(absolute,-12px,null,null,-12px)
+      line-height: 1
+    &:after
+      content: '”'
+      font-size: 72px
+      color: #d1d1d1
+      font-weight: 200
+      @include position(absolute,null,-12px,-46px,null)
+      line-height: 1
+  .more
+    text-align: right
+    a
+      @extend %dline
+      color: $orange
+      border-bottom: 1px solid $orange
+      position: relative
+      &:hover
+        border-bottom: 1px solid transparent
+      &:before
+        content: ""
+        @extend %dline
+        width: 6px
+        height: 8px
+        background: url("../img/more_arrow.png") no-repeat
+        @include position(absolute,7px,null,null,-12px)
+
+
+// Users
+.users
+  @media (min-width: 992px)
+    padding-left: 0
+  .carousel-wrapper
+    position: relative
+    margin: 0 -5px
+    @media (max-width: 543px)
+      width: 80%
+      margin: 0 auto
+    & > div
+      overflow: hidden
+    .carousel-inner
+      height: 100%
+      position: relative
+      left: 0
+      list-style: none
+      margin: 0
+      padding: 0
+      @include transition(all 0.3s ease)
+      .item
+        height: 100%
+        float: left
+        list-style: none
+        padding: 0 5px
+    .carousel-left, .carousel-right
+      width: 22px
+      height: 100%
+      @include position(absolute,0,null,0,null)
+      &:hover
+        opacity: 0.7
+    .carousel-left
+      left: -24px
+      background: url("../img/prev.png") no-repeat center
+    .carousel-right
+      right: -24px
+      background: url("../img/next.png") no-repeat center
+  &_item
+    & > div
+      background-position: center
+      background-repeat: no-repeat
+      background-size: cover
+      @include box-shadow(0 0 4px rgba(#000,0.75) inset)
+      overflow: hidden
+      position: relative
+      display: -webkit-box
+      display: -moz-box
+      display: -ms-flexbox
+      display: -webkit-flex
+      display: flex
+      -webkit-box-direction: normal
+      -moz-box-direction: normal
+      -webkit-box-orient: horizontal
+      -moz-box-orient: horizontal
+      -webkit-flex-direction: row
+      -ms-flex-direction: row
+      flex-direction: row
+      -webkit-flex-wrap: wrap
+      -ms-flex-wrap: wrap
+      flex-wrap: wrap
+      -webkit-box-pack: center
+      -moz-box-pack: center
+      -webkit-justify-content: center
+      -ms-flex-pack: center
+      justify-content: center
+      -webkit-align-content: center
+      -ms-flex-line-pack: center
+      align-content: center
+      -webkit-box-align: center
+      -moz-box-align: center
+      -webkit-align-items: center
+      -ms-flex-align: center
+      align-items: center
+      height: 70px
+      @media (max-width: 949px)
+        height: 150px
+      @media (max-width: 600px)
+        height: 200px
+      &:before
+        content: ""
+        @include position(absolute,0,0,0,0)
+        @include transition(background 0.3s ease)
+        z-index: 1
+      &:hover
+        .users_item_name
+          top: 0
+          opacity: 1
+        .users_item_wink
+          left: 0
+          opacity: 0.5
+        .users_item_add
+          right: 0
+          opacity: 0.5
+        &:before
+          background: rgba(#000,0.58)
+    p
+      margin: 0 !important
+      width: 100% !important
+      text-align: center
+    &_name
+      opacity: 0
+      position: relative
+      z-index: 10
+      top: -20px
+      font-size: 16px
+      color: #FFF
+      font-weight: 200
+      @include transition(opacity 0.3s ease, top 0.3s ease)
+      padding: 4px 0
+    &_wink, &_add
+      @extend %dline
+      vertical-align: top
+      margin: 0 2px
+      position: relative
+      z-index: 10
+      @include transition(opacity 0.3s ease, left 0.3s ease, right 0.3s ease)
+      opacity: 0
+      text-decoration: none
+      img
+        display: block
+      &:hover
+        opacity: 1
+    &_wink
+      left: -150px
+    &_add
+      right: -150px
+  &_tabs
+    padding: 21px 0 4px
+    @media (max-width: 991px)
+      margin-bottom: 20px
+    &_links
+      a
+        @extend %dline
+        vertical-align: top
+        height: 33px
+        padding-left: 11px
+        background: url("../img/tab_link_left.png") no-repeat top left
+        margin-left: -33px
+        font-size: 16px
+        @include transition(color 0.3s ease)
+        &:first-child
+          margin-left: -2px
+        .right
+          display: block
+          background: url("../img/tab_link_right.png") no-repeat top right
+          padding-right: 47px
+        .center
+          display: block
+          background: url("../img/tab_link_center.png") repeat-x
+          height: 33px
+          line-height: 33px
+          padding: 0 6px
+        .num
+          color: #b9b9b9
+        &.active
+          color: $orange
+          background: url("../img/tab_link_active_left.png") no-repeat top left
+          position: relative
+          z-index: 10
+          .right
+            background: url("../img/tab_link_active_right.png") no-repeat top right
+          .center
+            background: url("../img/tab_link_active_center.png") repeat-x
+    &_content
+      background: #FFF
+      @include border-radius(5px)
+      @include box-shadow(0 1px 5px rgba(#000,0.6))
+      min-height: 152px
+      @include position(relative,-2px,null,null,null)
+      padding: 23px 18px 13px
+      &.firstActive
+        @include border-radius(0 5px 5px 5px)
+      & > div
+        display: none
+        @media (max-width: 543px)
+          max-width: 300px
+          margin: 0 auto
+        &.active
+          display: block
+  .progress
+    &_line
+      border-top: 1px solid #d8d8d8
+      border-right: 1px solid #a2a2a2
+      border-bottom: 1px solid #a2a2a2
+      border-left: 1px solid #d8d8d8
+      @include border-radius(3px)
+      padding: 1px
+      @include gradient(#e5e6e6, #f2f9fa, vertical)
+      height: 16px
+      position: relative
+      margin-bottom: 25px
+    &_in
+      text-align: center
+      color: #4e4e4e
+      font-size: 10px
+      @include text-shadow(1px 1px 2px rgba(#FFF,0.42))
+      line-height: 12px
+      position: relative
+      z-index: 10
+    &_now
+      @include position(absolute,2px,2px,2px,2px)
+      & > div
+        @include gradient($orange, darken($orange,10%), vertical)
+        height: 10px
+        @include border-radius(2px)
+  .steps
+    @include border-radius(3px)
+    height: 28px
+    list-style: none
+    @extend %afterClear
+    padding: 0 !important
+    margin: 0 0 25px !important
+    li
+      float: left
+      text-align: center
+      color: #4e4e4e
+      font-size: 10px
+      line-height: 28px
+      @include text-shadow(1px 1px 2px rgba(#FFF,0.42))
+      background-size: 100% 100%
+      width: 25%
+      padding-left: 5px
+      position: relative
+      margin-left: -6.26%
+      &:first-child
+        margin-left: 0
+        z-index: 5
+        padding: 0 5px 0 0
+      &:nth-child(2)
+        z-index: 4
+      &:nth-child(3)
+        z-index: 3
+      &:nth-child(4)
+        z-index: 2
+      &:nth-child(5)
+        z-index: 1
+    &_passed
+      background: url("../img/step_passed.png") no-repeat center
+    &_now
+      background: url("../img/step_now.png") no-repeat center
+    &_coming
+      background: url("../img/step_coming.png") no-repeat center
+    &_last
+      background: url("../img/step_last.png") no-repeat center
+  .price-slider
+    border-top: 1px solid #d8d8d8
+    border-right: 1px solid #a2a2a2
+    border-bottom: 1px solid #a2a2a2
+    border-left: 1px solid #d8d8d8
+    @include border-radius(3px)
+    padding: 1px
+    @include gradient(#e5e6e6, #f2f9fa, vertical)
+    height: 16px
+    position: relative
+    @media (max-width: 767px)
+      margin-bottom: 25px
+    .ui-slider-range
+      position: absolute
+      z-index: 1
+      display: block
+      @include gradient($orange, darken($orange,10%), vertical)
+      height: 10px
+      @include border-radius(2px)
+      top: 2px
+    .ui-slider-handle
+      background: url("../img/handle.png") no-repeat
+      position: absolute
+      z-index: 2
+      width: 13px
+      height: 27px
+      cursor: default
+      -ms-touch-action: none
+      touch-action: none
+      top: -6px
+      margin-left: -6px
+      cursor: w-resize
+  .chart
+    position: relative
+    width: 90px
+    height: 90px
+    margin: 0 auto 10px
+    canvas
+      display: block
+      position: absolute
+      top: 0
+      left: 0
+    span
+      color: $grayText
+      display: block
+      text-align: center
+      line-height: 90px
+      width: 90px
+      font-size: 21px
+      font-weight: 200
+  .stars
+    width: 90px
+    margin: 0 auto
+    ul
+      list-style: none
+      padding: 0 !important
+      margin: 0 !important
+      li
+        width: 18px
+        height: 16px
+        background: url("../img/star.png") no-repeat center
+        text-indent: -9999px
+        cursor: pointer
+        @include transition(background 0.3s ease, opacity 0.3s ease)
+        &.active
+          background: url("../img/star_active.png") no-repeat center
+        &:hover, &.hover
+          background: url("../img/star_active.png") no-repeat center
+          opacity: 0.6
+
+    input
+      display: none
+
+
+// Footer
+.footer
+  border-top: 1px solid #cfcfcf
+  padding: 20px 0
+  &_logo
+    @media (max-width: 543px)
+      text-align: center
+      padding-bottom: 15px
+    a
+      @extend %dline
+      img
+        display: block
+  &_copyright
+    font-size: 20px
+    color: #4e4e4e
+    @media (min-width: 544px)
+      text-align: right
+    @media (max-width: 543px)
+      text-align: center
+    .gray
+      color: #cfcfcf
+    .big
+      font-size: 31px
+    p
+      line-height: 1
